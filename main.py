@@ -3,8 +3,10 @@ import requests
 import io
 from my_token import yd_token, ipinfo_token
 
+
 class IpifyClient:
     base_url = 'https://api.ipify.org'
+
     def get_my_ip(self):
         resp = requests.get(f'{self.base_url}?format=json')
         resp.raise_for_status()
@@ -13,13 +15,16 @@ class IpifyClient:
 
 class IpinfoClient:
     base_url = 'https://ipinfo.io'
+
     def __init__(self, token):
         self.token = token
+
     def get_geo_info(self, ip):
         url = f'{self.base_url}/{ip}/json'
         resp = requests.get(url, params={'token': self.token})
         resp.raise_for_status()
         return resp.json()
+
 
 class YD:
     base_url = 'https://cloud-api.yandex.net'
@@ -46,7 +51,6 @@ class YD:
         return True
 
 
-
 def main():
     ipify = IpifyClient()
     ip = ipify.get_my_ip()
@@ -56,7 +60,6 @@ def main():
 
     json_str = json.dumps(geo_data, ensure_ascii=False, indent=2)
     json_bytes = json_str.encode('utf-8')
-
 
     yd = YD(yd_token)
     folder_name = '/IP_Info'
